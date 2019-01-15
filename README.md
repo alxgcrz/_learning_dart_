@@ -2,7 +2,7 @@
 
 Dart se compila en código ARM y x86, así que las aplicaciones móviles de Dart puedan ejecutarse de forma nativa en iOS, Android y más. Para aplicaciones web, Dart se transpila a JavaScript.
 
-Dart está bien adaptado para la programación reactiva, con soporte para administrar objetos de corta duración, como los widgets de UI, a través de la rápida asignación de objetos y el recolector de basura generacional de Dart. Dart admite la programación asíncrona a través de las funciones de lenguaje y las API que utilizan los objetos Future y Stream.
+Dart está bien adaptado para la programación reactiva, con soporte para administrar objetos de corta duración, como los widgets de UI, a través de la rápida asignación de objetos y el recolector de basura generacional de Dart. Dart admite la programación asíncrona a través de las funciones de lenguaje y las API que utilizan los objetos `Future` y `Stream`.
 
 ## Conceptos importantes
 
@@ -55,7 +55,7 @@ main() {
 
 ### Running an app with the standalone Dart VM
 
-Para ejecutar 'command-line' apps se necesita la Dart VM que se incluye con el Dart SDK. Una vez instalado, añadimos el PATH a las variables del sistema para ejecutar el comando `dart` en la consola.
+Para ejecutar código en línea de comandos se necesita la Dart VM que se incluye con el Dart SDK. Una vez instalado, añadimos el PATH a las variables del sistema para ejecutar el comando `dart` en la consola.
 
 1. Crear un fichero llamado 'helloworld.dart':
     ```dart
@@ -112,9 +112,9 @@ class Llama {
 // En la documentación generada, [Food] se convierte en un enlace a los documentos API para la clase 'Food'.
 ```
 
-### Variables[🔗](https://www.dartlang.org/guides/language/language-tour#variables)
+### Variables
 
-Las variables almacenan referencias a objetos. La declaración de tipo es opcional ya que Dart puede inferir el tipo de variable. Dart tiene un **tipado fuerte** lo que significa que una variable de un tipo no puede almacenar referencias a objetos de otro tipo:
+Las [variables](https://www.dartlang.org/guides/language/language-tour#variables) almacenan referencias a objetos. La declaración de tipo es opcional ya que Dart puede inferir el tipo de variable. Dart tiene un **tipado fuerte** lo que significa que una variable de un tipo no puede almacenar referencias a objetos de otro tipo:
 
 ```dart
 var name = 'John'; // El compilador infiere el tipo 'String'
@@ -138,9 +138,9 @@ print(name.runtimeType); // => int
 
 Las variables sin inicializar tienen un valor inicial `null`. Incluso las variables con tipos numéricos son inicialmente nulas, porque los números, como todo lo demás en Dart, son objetos.
 
-#### `final` y `const`[🔗](https://www.dartlang.org/guides/language/language-tour#final-and-const)
+#### `final` y `const`
 
-Para declarar variables finales, se usa las palabras clave `final` o `const` en lugar de la palabra clave `var`. Una variable `final` solo se puede asignar una vez; una variable `const` es una constante en tiempo de compilación. Una constante en tiempo de compilación o ***compile-time constant*** es una constante cuyo valor es conocido en tiempo de compilación.
+Para declarar [variables finales](https://www.dartlang.org/guides/language/language-tour#final-and-const), se usa las palabras clave `final` o `const` en lugar de la palabra clave `var`. Una variable `final` solo se puede asignar una vez; una variable `const` es una constante en tiempo de compilación. Una constante en tiempo de compilación o ***compile-time constant*** es una constante cuyo valor es conocido en tiempo de compilación.
 
 Las variables `const` son implícitamente finales. Una variable final de nivel superior o una variable final de clase se inicializa la primera vez que se usa.
 
@@ -186,10 +186,10 @@ Se puede inicializar un objeto de cualquiera de estos tipos especiales utilizand
 
 Debido a que cada variable en Dart se refiere a un objeto, esto es, una instancia de una clase, usualmente puede usar constructores para inicializar variables. Algunos de los tipos incorporados tienen sus propios constructores. Por ejemplo, el constructor `Map()` sirve para crear un mapa.
 
-#### Numbers[🔗](https://www.dartlang.org/guides/language/language-tour#numbers)
+#### Numbers
 
 <!-- markdownlint-disable MD033 -->
-Dart tiene dos tipos para representar tipos numéricos. Ambos tipos son objetos.
+Dart tiene dos tipos para representar [tipos numéricos](https://www.dartlang.org/guides/language/language-tour#numbers). Ambos tipos son objetos.
 
 * [`int`](https://api.dartlang.org/stable/2.1.0/dart-core/int-class.html) - Valores enteros no mayores a **64 bits**, dependiendo de la plataforma. En Dart VM puede representar valores entre -2<sup>63</sup> y 2<sup>63</sup> - 1. Dado que Dart se puede compilar a Javascript, en Javascript el intervalo de valores es entre -2<sup>53</sup> hasta 2<sup>53</sup> - 1.
 
@@ -239,9 +239,9 @@ const secondsUntilRetry = 5;
 const msUntilRetry = secondsUntilRetry * msPerSecond;
 ```
 
-#### Strings[🔗](https://www.dartlang.org/guides/language/language-tour#strings)
+#### Strings
 
-Una cadena en Dart es una secuencia de unidades de código UTF-16. Puedes usar comillas simples o dobles para crear una cadena. El operador `+` permite concatenar cadenas:
+Una [cadena](https://www.dartlang.org/guides/language/language-tour#strings) en Dart es una secuencia de unidades de código UTF-16. Puedes usar comillas simples o dobles para crear una cadena. El operador `+` permite concatenar cadenas:
 
 ```dart
 var s1 = 'Single quotes work well for string literals.';
@@ -294,11 +294,11 @@ const validConstString = '$aConstNum $aConstBool $aConstString';
 // const invalidConstString = '$aNum $aBool $aString $aConstList';
 ```
 
-#### Booleans[🔗](https://www.dartlang.org/guides/language/language-tour#booleans)
+#### Booleans
 
-Para representar valores booleanos, Dart tiene un tipo llamado `bool`. Solo dos objetos tienen el tipo `bool`: los literales booleanos `true` y `false`, que son constantes de tiempo de compilación.
+Para representar [valores booleanos](https://www.dartlang.org/guides/language/language-tour#booleans), Dart tiene un tipo llamado `bool`. Solo dos objetos tienen el tipo `bool`: los literales booleanos `true` y `false`, que son constantes de tiempo de compilación.
 
-#### Lists[🔗](https://www.dartlang.org/guides/language/language-tour#lists)
+#### Lists
 
 Quizás la colección más común en casi todos los lenguajes de programación es el **array**, o grupo ordenado de objetos. En Dart, los arrays son objetos de tipo [List](https://api.dartlang.org/stable/dart-core/List-class.html).
 
@@ -317,9 +317,9 @@ var constantList = const [1, 2, 3];
 // constantList[1] = 1; // Uncommenting this causes an error.
 ```
 
-#### Maps[🔗](https://www.dartlang.org/guides/language/language-tour#maps)
+#### Maps
 
-En general, un mapa es un objeto que asocia claves y valores. Tanto las claves como los valores pueden ser de cualquier tipo de objeto. Cada clave aparece solo una vez, pero puede usar el mismo valor varias veces. El soporte de Dart para mapas es proporcionado por literales de mapas y el tipo `Map`:
+En general, un [mapa](https://www.dartlang.org/guides/language/language-tour#maps) es un objeto que asocia claves y valores. Tanto las claves como los valores pueden ser de cualquier tipo de objeto. Cada clave aparece solo una vez, pero puede usar el mismo valor varias veces. El soporte de Dart para mapas es proporcionado por literales de mapas y el tipo `Map`:
 
 ```dart
 var gifts = {
@@ -372,9 +372,9 @@ final constantMap = const {
 // constantMap[2] = 'Helium'; // Uncommenting this causes an error.
 ```
 
-#### Runes[🔗](https://www.dartlang.org/guides/language/language-tour#runes)
+#### Runes
 
-En Dart, `runes` son los puntos de código UTF-32 de una cadena. Unicode define un valor numérico único para cada letra, dígito y símbolo utilizado en todos los sistemas de escritura del mundo. Debido a que una cadena en Dart es una secuencia de unidades de código UTF-16, la expresión de valores Unicode de 32 bits dentro de una cadena requiere una sintaxis especial.
+En Dart, ['runes'](https://www.dartlang.org/guides/language/language-tour#runes) son los puntos de código UTF-32 de una cadena. Unicode define un valor numérico único para cada letra, dígito y símbolo utilizado en todos los sistemas de escritura del mundo. Debido a que una cadena en Dart es una secuencia de unidades de código UTF-16, la expresión de valores Unicode de 32 bits dentro de una cadena requiere una sintaxis especial.
 
 La forma habitual de expresar un punto de código Unicode es `\uXXXX`, donde XXXX es un valor hexadecimal de 4 dígitos. Por ejemplo, el carácter del corazón (♥) es `\u2665`. Para especificar más o menos de 4 dígitos hexadecimales, coloque el valor entre corchetes. Por ejemplo, el emoji de la risa (😆) es `\u {1f600}`.
 
@@ -385,9 +385,9 @@ print(clapping); // => 👏
 
 <http://www.unicode.org/charts/>
 
-#### Symbols[🔗](https://www.dartlang.org/guides/language/language-tour#symbols)
+#### Symbols
 
-Un objeto de tipo `Symbol` representa un operador o identificador declarado en un programa Dart. Es posible que nunca necesite utilizar símbolos, pero son invaluables para las API que hacen referencia a los identificadores por su nombre, porque la minificación cambia los nombres de los identificadores pero no los símbolos de los identificadores.
+Un objeto de tipo ['Symbol'](https://www.dartlang.org/guides/language/language-tour#symbols) representa un operador o identificador declarado en un programa Dart. Es posible que nunca necesite utilizar símbolos, pero son invaluables para las API que hacen referencia a los identificadores por su nombre, porque la minificación cambia los nombres de los identificadores pero no los símbolos de los identificadores.
 
 Para obtener el símbolo de un identificador, use un símbolo literal, que es `#` seguido del identificador. Los literales de los símbolos son constantes en tiempo de compilación.
 
@@ -710,9 +710,9 @@ assert(urlString.startsWith('https'), 'URL ($urlString) should start with "https
 <div class="page"/>
 <!-- markdownlint-enable MD033 -->
 
-## Functions[🔗](https://www.dartlang.org/guides/language/language-tour#functions)
+## Functions
 
-Dart es un verdadero lenguaje orientado a objetos, por lo que incluso las funciones son objetos y tienen un tipo, el tipo [Function](https://api.dartlang.org/stable/dart-core/Function-class.html). Esto significa que las funciones pueden asignarse a variables o pasarse como argumentos a otras funciones. También puede llamar a una instancia de una clase Dart como si fuera una función.
+Dart es un verdadero lenguaje orientado a objetos, por lo que incluso las [funciones](https://www.dartlang.org/guides/language/language-tour#functions) son objetos y tienen un tipo, el tipo [Function](https://api.dartlang.org/stable/dart-core/Function-class.html). Esto significa que las funciones pueden asignarse a variables o pasarse como argumentos a otras funciones. También puede llamar a una instancia de una clase Dart como si fuera una función.
 
 ```dart
 bool isEven(int number) {
@@ -1806,9 +1806,11 @@ Future<String> gatherNewsReports() =>
 <https://www.dartlang.org/tutorials/language/futures>
 <https://www.dartlang.org/tutorials/language/streams>
 
-## Testing[🔗](https://www.dartlang.org/guides/testing)
+## Testing
 
 (todo)
+
+<https://www.dartlang.org/guides/testing>
 
 ---
 
@@ -1816,7 +1818,7 @@ Future<String> gatherNewsReports() =>
 
 * <https://www.dartlang.org/>
 
-## License
+### License
 
 [![Licencia de Creative Commons](https://i.creativecommons.org/l/by-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-sa/4.0/)  
 Esta obra está bajo una [licencia de Creative Commons Reconocimiento-Compartir Igual 4.0 Internacional](http://creativecommons.org/licenses/by-sa/4.0/).
