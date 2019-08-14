@@ -58,12 +58,14 @@ main() {
 Para ejecutar código en línea de comandos se necesita la Dart VM que se incluye con el Dart SDK. Una vez instalado, añadimos el PATH a las variables del sistema para ejecutar el comando `dart` en la consola.
 
 1. Crear un fichero llamado 'helloworld.dart':
-    ```dart
-    void main() {
-        print('Hello, World!');
-    }
-    ```
-2. Ejecutar el programa: `dart helloworld.dart`
+
+```dart
+void main() {
+  print('Hello, World!');
+}
+```
+
+1. Ejecutar el programa: `dart helloworld.dart`
 
 <https://www.dartlang.org/tutorials/dart-vm/get-started>
 <https://www.dartlang.org/tutorials/dart-vm/cmdline>
@@ -1818,7 +1820,7 @@ Future<String> gatherNewsReports() =>
 
 * <https://www.dartlang.org/>
 
-### License
+## License
 
 [![Licencia de Creative Commons](https://i.creativecommons.org/l/by-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-sa/4.0/)  
 Esta obra está bajo una [licencia de Creative Commons Reconocimiento-Compartir Igual 4.0 Internacional](http://creativecommons.org/licenses/by-sa/4.0/).
