@@ -1,8 +1,30 @@
 # Apuntes de [Dart]
 
-Dart se compila en código ARM y x86, así que las aplicaciones móviles de Dart puedan ejecutarse de forma nativa en iOS, Android y más. Para aplicaciones web, Dart se transpila a JavaScript.
+Dart es un lenguaje de programación de código abierto desarrollado por Google. Dart es ideal para aplicaciones móviles y aplicaciones web. También puede ser usado en aplicaciones de escritorio, en aplicaciones de línea de comandos (_'command-line apps'_), como lenguaje para escribir scripts o en aplicaciones _server-side_.
 
-Dart está bien adaptado para la programación reactiva, con soporte para administrar objetos de corta duración, como los widgets de UI, a través de la rápida asignación de objetos y el recolector de basura generacional de Dart. Dart admite la programación asíncrona a través de las funciones de lenguaje y las API que utilizan los objetos `Future` y `Stream`.
+Para aplicaciones web, **Dart Web** incluye un compilador en tiempo de desarrollo (_'dartdevc'_) y un compilador para producción (_'dart2js'_). La herramienta _'dart2js'_ compila el código Dart en código JavaScript compacto, rápido y desplegable. Emplea técnicas como la eliminación de código muerto para generar código Javascript limpio y eficiente.
+
+Para aplicaciones que se dirigen a dispositivos (móviles, de escritorio, servidores, etc..) **Dart Native** incluye una compilación Dart VM con compilación JIT (_'just-in-time'_) y un compilador AOT (_'ahead-of-time'_) para producir código máquina. **Dart Native** permite ejecutar código Dart compilado en código ARM nativo o X64 para aplicaciones móviles, de escritorio y de servidor.
+
+## Compilación AOT vs JIT
+
+Históricamente, los lenguajes de programación se han dividido en dos grupos: **lenguajes estáticos** (por ejemplo, Fortran o C, donde las variables se escriben estáticamente en tiempo de compilación), y **lenguajes dinámicos** (por ejemplo, Smalltalk o JavaScript, donde el tipo de una variable puede cambiar en tiempo de ejecución). Los lenguajes estáticos se compilaban normalmente para producir programas de código nativo de máquina (o código ensamblador) para el equipo destino, que en tiempo de ejecución eran ejecutados directamente por el hardware. Los lenguajes dinámicos eran ejecutados por un intérprete, sin producir código de lenguaje de máquina.
+
+Por supuesto, las cosas eventualmente se volvieron mucho más complicadas. El concepto de una máquina virtual (VM) se hizo popular, la cual no es más que un intérprete avanzado que imita a un hardware de máquina en software. Una máquina virtual facilita la transferencia de un lenguaje a nuevas plataformas de hardware. En este caso, el lenguaje de entrada de una máquina virtual suele ser un lenguaje intermedio. Por ejemplo, un lenguaje de programación (como Java) se compila en un lenguaje intermedio (_'bytecode'_) y luego se ejecuta en una VM (la JVM).
+
+Además, ahora existen **compiladores JIT** (_'just-in-time'_). Un compilador JIT trabaja la ejecución del programa, compilando sobre la marcha. Los compiladores originales que se ejecutan durante la creación del programa (antes del tiempo de ejecución) se denominan ahora **compiladores AOT** (_'ahead-of-time'_).
+
+En general, sólo los lenguajes estáticos son aptos para la compilación de AOT en código de máquina nativo porque los lenguajes de máquina normalmente necesitan saber el tipo de datos, y en los lenguajes dinámicos el tipo no se fija de antemano. En consecuencia, los lenguajes dinámicos suelen ser interpretados o compilados por JIT.
+
+Cuando la compilación AOT se realiza durante el desarrollo, invariablemente resulta en ciclos de desarrollo mucho más lentos (el tiempo que transcurre entre el momento en que se realiza un cambio en un programa y el momento en que se puede ejecutar el programa para ver el resultado del cambio). Pero la compilación AOT da como resultado programas que pueden ejecutarse de forma más predecible y sin pausas para el análisis y la compilación en tiempo de ejecución. Los programas compilados por AOT también comienzan a ejecutarse más rápido (porque ya han sido compilados).
+
+Por el contrario, la compilación JIT proporciona ciclos de desarrollo mucho más rápidos, pero puede dar lugar a una ejecución más lenta o jerárquica. En particular, los compiladores JIT tienen tiempos de inicio más lentos, porque cuando el programa comienza a ejecutarse, el compilador JIT tiene que hacer análisis y compilación antes de que el código pueda ser ejecutado.
+
+Dart es uno de los pocos lenguajes que está bien adaptado para ser compilado tanto AOT como JIT. El soporte de ambos tipos de compilación proporciona ventajas significativas para Dart y (especialmente) Flutter.
+
+La compilación JIT se utiliza durante el desarrollo, utilizando un compilador que es especialmente rápido lo que deriva en una de las características de Flutter, el _"stateful hot reload"_. Luego, cuando una aplicación está lista para su lanzamiento, se compila AOT. Consecuentemente, con la ayuda de herramientas y compiladores avanzados, Dart puede ofrecer lo mejor de ambos mundos: ciclos de desarrollo extremadamente rápidos y tiempos de ejecución y puesta en marcha rápidos.
+
+Dart puede ser compilado eficientemente AOT o JIT, interpretado o transpilado a otros lenguajes como Javascript.
 
 ## Conceptos importantes
 
@@ -24,21 +46,7 @@ Dart está bien adaptado para la programación reactiva, con soporte para admini
 
 * Las herramientas de Dart pueden reportar dos tipos de problemas: **warnings** y **errors**. Las advertencias son solo indicaciones de que su código podría no funcionar, pero no impiden que su programa se ejecute. Los errores pueden ser de compilación o de ejecución. Un error en tiempo de compilación evita que el código se ejecute; un error en tiempo de ejecución hace que se genere una excepción mientras se ejecuta el código.
 
-### Isolates
-
-La mayoría de los ordenadores, incluso en plataformas móviles, tienen CPUs multinúcleo. Para aprovechar todos estos núcleos, los desarrolladores utilizan tradicionalmente hilos de memoria compartida que se ejecutan simultáneamente. Sin embargo, la concurrencia de estados compartidos es propensa a errores y puede conducir a código complicado.
-
-En lugar de hilos, todo el código en Dart corre dentro de [***isolates***](https://api.dartlang.org/stable/2.1.0/dart-isolate/dart-isolate-library.html). Cada entorno aislado tiene su propia pila de memoria, lo que al no ser compartida se garantiza que no se pueda acceder ni modificar el estado.
-
-<!-- markdownlint-disable MD033 -->
-<div class="page"/>
-<!-- markdownlint-enable MD033 -->
-
-## Sintaxis básica
-
-<https://www.dartlang.org/guides/language/language-tour>
-
-### A basic Dart program
+### Compilar y ejecutar código Dart
 
 ```Dart
 // Define a function.
@@ -53,9 +61,7 @@ main() {
 }
 ```
 
-### Running an app with the standalone Dart VM
-
-Para ejecutar código en línea de comandos se necesita la Dart VM que se incluye con el Dart SDK. Una vez instalado, añadimos el PATH a las variables del sistema para ejecutar el comando `dart` en la consola.
+Para ejecutar código en línea de comandos se necesita la VM de Dart que se incluye con el SDK de Dart. Una vez instalado, añadimos el _PATH_ a las variables del sistema para ejecutar el comando `dart` directamente en la consola.
 
 1. Crear un fichero llamado 'helloworld.dart':
 
@@ -67,14 +73,18 @@ void main() {
 
 1. Ejecutar el programa: `dart helloworld.dart`
 
-<https://www.dartlang.org/tutorials/dart-vm/get-started>
-<https://www.dartlang.org/tutorials/dart-vm/cmdline>
+Más información:
+
+* <https://dart.dev/tutorials/server/get-started>  
+* <https://dart.dev/tutorials/server/cmdline>
+
+## Sintaxis básica
 
 ### Comentarios
 
-Dart admite comentarios de una sola línea (`//`), comentarios de varias líneas y comentarios de documentación.
+Dart admite comentarios de una sola línea (`//`), comentarios de varias líneas (`/* */`) y comentarios de documentación.
 
-Los comentarios de una sola línea o de varias líneas funcionan son **iguales que Java**.
+Los comentarios de una sola línea o de varias líneas funcionan **igual que en Java**.
 
 ```dart
 void main() {
@@ -90,7 +100,7 @@ void main() {
 }
 ```
 
-Los comentarios de documentación son de una línea o varias líneas y empiezan por `///` o `/**`. Dentro de un comentario de documentación, el compilador de Dart ignora todo el texto a menos que esté entre corchetes. Usando corchetes, puede referirse a clases, métodos, campos, variables de nivel superior, funciones y parámetros. Los nombres entre paréntesis se resuelven en el ámbito léxico del elemento del programa documentado. Para generar la documentación, se usa la herramienta [dartdoc](https://github.com/dart-lang/dartdoc#dartdoc)
+Los comentarios de documentación pueden ser de una línea o de varias líneas y empiezan por `///` o `/**`. Dentro de un comentario de documentación, el compilador ignora todo el texto a menos que esté entre corchetes. Usando corchetes, puede referirse a clases, métodos, campos, variables de nivel superior, funciones y parámetros. Los nombres entre paréntesis se resuelven en el ámbito léxico del elemento del programa documentado. Para generar la documentación, se usa la herramienta [dartdoc](https://github.com/dart-lang/dartdoc#dartdoc)
 
 ```dart
 /// A domesticated South American camelid (Lama glama).
@@ -116,7 +126,7 @@ class Llama {
 
 ### Variables
 
-Las [variables](https://www.dartlang.org/guides/language/language-tour#variables) almacenan referencias a objetos. La declaración de tipo es opcional ya que Dart puede inferir el tipo de variable. Dart tiene un **tipado fuerte** lo que significa que una variable de un tipo no puede almacenar referencias a objetos de otro tipo:
+Las [variables](https://dart.dev/guides/language/language-tour#variables) almacenan referencias a objetos. La declaración de tipo es opcional ya que Dart puede inferir el tipo de variable. Dart tiene un **tipado fuerte** lo que significa que una variable de un tipo no puede almacenar referencias a objetos de otro tipo:
 
 ```dart
 var name = 'John'; // El compilador infiere el tipo 'String'
@@ -142,7 +152,7 @@ Las variables sin inicializar tienen un valor inicial `null`. Incluso las variab
 
 #### `final` y `const`
 
-Para declarar [variables finales](https://www.dartlang.org/guides/language/language-tour#final-and-const), se usa las palabras clave `final` o `const` en lugar de la palabra clave `var`. Una variable `final` solo se puede asignar una vez; una variable `const` es una constante en tiempo de compilación. Una constante en tiempo de compilación o ***compile-time constant*** es una constante cuyo valor es conocido en tiempo de compilación.
+Para declarar [variables finales](https://dart.dev/guides/language/language-tour#final-and-const) cuyo valor no va a cambiar, se utilizan las palabras clave `final` o `const` en lugar de la palabra clave `var`. Una variable `final` solo se puede asignar una vez; una variable `const` es una constante en tiempo de compilación. Una constante en tiempo de compilación o ***compile-time constant*** es una constante cuyo valor es conocido en tiempo de compilación.
 
 Las variables `const` son implícitamente finales. Una variable final de nivel superior o una variable final de clase se inicializa la primera vez que se usa.
 
@@ -172,7 +182,7 @@ final bar = const [];
 const baz = []; // Equivalent to `const []`
 ```
 
-### Built-in types
+### Tipos incorporados
 
 Dart tiene soporte especial para los siguientes tipos:
 
@@ -188,21 +198,18 @@ Se puede inicializar un objeto de cualquiera de estos tipos especiales utilizand
 
 Debido a que cada variable en Dart se refiere a un objeto, esto es, una instancia de una clase, usualmente puede usar constructores para inicializar variables. Algunos de los tipos incorporados tienen sus propios constructores. Por ejemplo, el constructor `Map()` sirve para crear un mapa.
 
-#### Numbers
+#### Números
 
-<!-- markdownlint-disable MD033 -->
-Dart tiene dos tipos para representar [tipos numéricos](https://www.dartlang.org/guides/language/language-tour#numbers). Ambos tipos son objetos.
+Dart tiene dos tipos para representar [tipos numéricos](https://dart.dev/guides/language/language-tour#numbers). Ambos tipos son objetos.
 
-* [`int`](https://api.dartlang.org/stable/2.1.0/dart-core/int-class.html) - Valores enteros no mayores a **64 bits**, dependiendo de la plataforma. En Dart VM puede representar valores entre -2<sup>63</sup> y 2<sup>63</sup> - 1. Dado que Dart se puede compilar a Javascript, en Javascript el intervalo de valores es entre -2<sup>53</sup> hasta 2<sup>53</sup> - 1.
-
-<!-- markdownlint-enable MD033 -->
+* [`int`](https://api.dart.dev/stable/dart-core/int-class.html) - Valores enteros no mayores a **64 bits**, dependiendo de la plataforma. En Dart VM puede representar valores entre -2^63 y 2^63 - 1. Dado que Dart se puede compilar a Javascript, en Javascript el intervalo de valores está entre -2^53 hasta 2^53 - 1.
 
 ```dart
 var x = 1;
 var hex = 0xDEADBEEF;
 ```
 
-* [`double`](https://api.dartlang.org/stable/2.1.0/dart-core/double-class.html) - Números de punto flotante de **64 bits** (precisión doble), según lo especificado por el estándar IEEE 754.
+* [`double`](https://api.dart.dev/stable/dart-core/double-class.html) - Números de punto flotante de **64 bits** (precisión doble), según lo especificado por el estándar IEEE 754.
 
 ```dart
 var y = 1.1;
@@ -211,7 +218,7 @@ var exponents = 1.42e5;
 
 Tanto el tipo `int` como el tipo `double` son subtipos de la clase `num`. Esta clase incluye operaciones aritméticas como suma, resta, etc... y métodos como `abs()`, `ceil()`, `floor()`, etc...
 
-Si la clase `num` y sus subtipos incluyendo las operaciones no son suficientes, la librería **[dart:math](https://api.dartlang.org/stable/2.1.0/dart-math/dart-math-library.html)** tiene una amplia variedad de tipos y métodos.
+Si la clase `num` y sus subtipos incluyendo las operaciones no son suficientes, la librería **[dart:math](https://api.dart.dev/stable/dart-math)** tiene una amplia variedad de tipos y métodos.
 
 Se puede realizar la conversión entre tipos:
 
@@ -241,9 +248,9 @@ const secondsUntilRetry = 5;
 const msUntilRetry = secondsUntilRetry * msPerSecond;
 ```
 
-#### Strings
+#### Cadenas
 
-Una [cadena](https://www.dartlang.org/guides/language/language-tour#strings) en Dart es una secuencia de unidades de código UTF-16. Puedes usar comillas simples o dobles para crear una cadena. El operador `+` permite concatenar cadenas:
+Una [cadena](https://dart.dev/guides/language/language-tour#strings) en Dart es una secuencia de unidades de código UTF-16. Para crear una cadena se pueden utilizar comillas simples o comillas dobles. El operador `+` permite concatenar cadenas:
 
 ```dart
 var s1 = 'Single quotes work well for string literals.';
@@ -265,7 +272,7 @@ var s8 = """This is also a
 multi-line string.""";
 ```
 
-En Dart (al igual que en Kotlin) se puede emplear expresiones y variables directamente en una cadena con la forma `${expresión}`. Si la expresión es un identificador, se pueden omitir las llaves {}. Esto se denomina **interpolación de cadena** o ***'template expressión'*** en Kotlin.
+En Dart (al igual que en Kotlin) se puede emplear expresiones y variables directamente en una cadena con la forma `${expresión}`. Si la expresión es un identificador, se pueden omitir las llaves `{}`. Esto se denomina **interpolación de cadena** o ***'template expressión'*** en Kotlin.
 
 Para obtener la cadena correspondiente a un objeto, Dart llama al método `toString()` del objeto.
 
@@ -296,13 +303,13 @@ const validConstString = '$aConstNum $aConstBool $aConstString';
 // const invalidConstString = '$aNum $aBool $aString $aConstList';
 ```
 
-#### Booleans
+#### Booleanos
 
-Para representar [valores booleanos](https://www.dartlang.org/guides/language/language-tour#booleans), Dart tiene un tipo llamado `bool`. Solo dos objetos tienen el tipo `bool`: los literales booleanos `true` y `false`, que son constantes de tiempo de compilación.
+Para representar [valores booleanos](https://dart.dev/guides/language/language-tour#booleans), Dart tiene un tipo llamado `bool`. Solo dos objetos tienen el tipo `bool`: los literales booleanos `true` y `false`, que son constantes de tiempo de compilación.
 
 #### Lists
 
-Quizás la colección más común en casi todos los lenguajes de programación es el **array**, o grupo ordenado de objetos. En Dart, los arrays son objetos de tipo [List](https://api.dartlang.org/stable/dart-core/List-class.html).
+Quizás la colección más común en casi todos los lenguajes de programación es el **array**, o grupo ordenado de objetos. En Dart, los arrays son objetos de tipo [List](https://api.dart.dev/stable/dart-core/List-class.html).
 
 ```dart
 var list = [1, 2, 3];
@@ -319,9 +326,47 @@ var constantList = const [1, 2, 3];
 // constantList[1] = 1; // Uncommenting this causes an error.
 ```
 
+#### Sets
+
+En Dart, un conjunto es una colección desordenada de elementos únicos. El soporte de Dart para conjuntos se proporciona mediante literales de conjunto y el tipo [Set](https://api.dart.dev/stable/dart-core/Set-class.html).
+
+```dart
+var halogens = {'fluorine', 'chlorine', 'bromine', 'iodine', 'astatine'};
+```
+
+Para crear un conjunto vacío, se utiliza `{}` precedido por un argumento de tipo, o se asigna `{}` a una variable de tipo `Set`:
+
+```dart
+var names = <String>{};
+// Set<String> names = {}; // This works, too.
+// var names = {}; // Creates a map, not a set.
+```
+
+Podemos añadir elementos a un conjunto existente con los métodos `add()` o `addAll()` y obtener el tamaño del conjunto con `.length`;
+
+```dart
+var elements = <String>{};
+elements.add('fluorine');
+elements.addAll(halogens);
+assert(elements.length == 5);
+```
+
+Para crear un conjunto que sea una constante en tiempo de compilación, hay que agregar `const` antes del literal del conjunto:
+
+```dart
+final constantSet = const {
+  'fluorine',
+  'chlorine',
+  'bromine',
+  'iodine',
+  'astatine',
+};
+// constantSet.add('helium'); // Uncommenting this causes an error.
+```
+
 #### Maps
 
-En general, un [mapa](https://www.dartlang.org/guides/language/language-tour#maps) es un objeto que asocia claves y valores. Tanto las claves como los valores pueden ser de cualquier tipo de objeto. Cada clave aparece solo una vez, pero puede usar el mismo valor varias veces. El soporte de Dart para mapas es proporcionado por literales de mapas y el tipo `Map`:
+En general, un [mapa](https://dart.dev/guides/language/language-tour#maps) es un objeto que asocia claves y valores. Tanto las claves como los valores pueden ser de cualquier tipo de objeto. Cada clave aparece solo una vez, pero puede usar el mismo valor varias veces. El soporte de Dart para mapas es proporcionado por literales de mapas y el tipo `Map`:
 
 ```dart
 var gifts = {
@@ -374,33 +419,9 @@ final constantMap = const {
 // constantMap[2] = 'Helium'; // Uncommenting this causes an error.
 ```
 
-#### Runes
+### Operadores
 
-En Dart, ['runes'](https://www.dartlang.org/guides/language/language-tour#runes) son los puntos de código UTF-32 de una cadena. Unicode define un valor numérico único para cada letra, dígito y símbolo utilizado en todos los sistemas de escritura del mundo. Debido a que una cadena en Dart es una secuencia de unidades de código UTF-16, la expresión de valores Unicode de 32 bits dentro de una cadena requiere una sintaxis especial.
-
-La forma habitual de expresar un punto de código Unicode es `\uXXXX`, donde XXXX es un valor hexadecimal de 4 dígitos. Por ejemplo, el carácter del corazón (♥) es `\u2665`. Para especificar más o menos de 4 dígitos hexadecimales, coloque el valor entre corchetes. Por ejemplo, el emoji de la risa (😆) es `\u {1f600}`.
-
-```dart
-var clapping = '\u{1f44f}';
-print(clapping); // => 👏
-```
-
-<http://www.unicode.org/charts/>
-
-#### Symbols
-
-Un objeto de tipo ['Symbol'](https://www.dartlang.org/guides/language/language-tour#symbols) representa un operador o identificador declarado en un programa Dart. Es posible que nunca necesite utilizar símbolos, pero son invaluables para las API que hacen referencia a los identificadores por su nombre, porque la minificación cambia los nombres de los identificadores pero no los símbolos de los identificadores.
-
-Para obtener el símbolo de un identificador, use un símbolo literal, que es `#` seguido del identificador. Los literales de los símbolos son constantes en tiempo de compilación.
-
-```dart
-#radix
-#bar
-```
-
-### Operators
-
-Cuando se usan los operadores, se crea una expresiones.
+Cuando se usan los operadores, se crea una expresión.
 
 ```dart
 a++
@@ -421,7 +442,7 @@ if ((n % i == 0) && (d % i == 0)) ...
 if (n % i == 0 && d % i == 0) ...
 ```
 
-#### Arithmetic operators
+#### Operadores aritméticos
 
 ```dart
 assert(2 + 3 == 5);
@@ -434,7 +455,7 @@ assert(5 % 2 == 1); // Remainder (modulo)
 assert('5/2 = ${5 ~/ 2} r ${5 % 2}' == '5/2 = 2 r 1');
 ```
 
-Dart también admite operadores de incremento y decremento tanto de prefijo como de postfijo.
+Dart también admite operadores de incremento y decremento tanto de prefijo como de sufijo.
 
 |           |                                                  |
 | :-------: | :----------------------------------------------  |
@@ -463,7 +484,7 @@ b = a--; // Decrement a AFTER b gets its value.
 assert(a != b); // -1 != 0
 ```
 
-#### Equality and relational operators
+#### Igualdar y operadores relacionales
 
 ```dart
 assert(2 == 2); // equal
@@ -474,9 +495,9 @@ assert(3 >= 3); // greater than or equal to
 assert(2 <= 3); // less than or equal to
 ```
 
-En el caso poco frecuente de necesitar saber si dos objetos son exactamente el mismo objeto, se usa la función `identical()`.
+Para probar si dos objetos representan la misma cosa, use el operador `==`. En el caso poco frecuente de necesitar saber si dos objetos son exactamente el mismo objeto, se usa la función `identical()`.
 
-#### Type test operators
+#### Operadores de comprobación de tipo
 
 Los operadores `as`, `is` y `is!` son útiles para verificar tipos en tiempo de ejecución.
 
@@ -489,7 +510,7 @@ if (emp is Person) {
 (emp as Person).firstName = 'Bob'; // Si 'emp' no es de tipo 'Person' se lanzará una excepción
 ```
 
-#### Assignment operators
+#### Operadores de asignación
 
 Para asignar un valor se usa el operador `=`. Para asignar un valor a una variable sólo si ésta es nula, se usa el operador `??=`.
 
@@ -520,9 +541,9 @@ a *= 3; // Assign and multiply: a = a * 3
 assert(a == 6);
 ```
 
-#### Logical operators
+#### Operadores lógicos
 
-|     Operator     |                            Meaning                                        |
+|     Operador     |                            Significado                                    |
 | :--------------: | :-----------------------------------------------------------------------: |
 |      `!exp`      | inverts the following expression (changes false to true, and vice versa)  |
 |       `||`       | logical OR                                                                |
@@ -534,7 +555,7 @@ if (!done && (col == 0 || col == 3)) {
 }
 ```
 
-#### Conditional expressions
+#### Expresiones condicionales
 
 Dart tiene dos operadores que permiten evaluar de forma concisa expresiones que de otro modo podrían requerir sentencias tipo `if-else`:
 
@@ -573,7 +594,7 @@ sb.write('foo')
   ..write('bar'); // Error: method 'write' isn't defined for 'void'.
 ```
 
-### Control flow statements
+### Control de flujo
 
 #### If and else
 
@@ -587,7 +608,7 @@ if (isRaining()) {
 }
 ```
 
-#### For loops
+#### Bucles for
 
 ```dart
 var message = StringBuffer('Dart is fun');
@@ -602,7 +623,7 @@ Si el objeto sobre el que está iterando es 'Iterable', se puede usar el método
 candidates.forEach((candidate) => candidate.interview());
 ```
 
-Clases iterables como `List` y `Map` son compatibles con la forma `for-in:
+Clases iterables como `List` y `Map` son compatibles con la forma `for-in`:
 
 ```dart
 var collection = [0, 1, 2];
@@ -648,7 +669,7 @@ for (int i = 0; i < candidates.length; i++) {
 
 #### Switch and case
 
-En Dart los bloques `switch` comparan enteros, strings y constantes en tiempo de compilación usando `==`. Los objetos que se comparan tiene que ser de la misma clase. Las enumeraciones también funcionan con los bloques `switch`.
+En Dart los bloques `switch` comparan enteros, cadenas y constantes en tiempo de compilación usando `==`. Los objetos que se comparan tiene que ser de la misma clase. Las enumeraciones también funcionan con los bloques `switch`.
 
 ```dart
 var command = 'OPEN';
@@ -692,7 +713,7 @@ switch (command) {
 
 #### Assert
 
-Se usa `assert` para interrumpir la ejecución normal si una condición booleana es falsa. Cuando la condición es falsa la afirmación falla y se lanza la excepción `AssertionError`. Estas declaraciones no tienen efecto en el código en producción.
+Se usa `assert` para interrumpir la ejecución normal si una condición booleana es falsa. Cuando la condición es falsa la afirmación falla y se lanza la excepción `AssertionError`. Estas declaraciones son ignoradas en producción.
 
 ```dart
 // Make sure the variable has a non-null value.
@@ -708,13 +729,9 @@ assert(urlString.startsWith('https'));
 assert(urlString.startsWith('https'), 'URL ($urlString) should start with "https".');
 ```
 
-<!-- markdownlint-disable MD033 -->
-<div class="page"/>
-<!-- markdownlint-enable MD033 -->
+## Funciones
 
-## Functions
-
-Dart es un verdadero lenguaje orientado a objetos, por lo que incluso las [funciones](https://www.dartlang.org/guides/language/language-tour#functions) son objetos y tienen un tipo, el tipo [Function](https://api.dartlang.org/stable/dart-core/Function-class.html). Esto significa que las funciones pueden asignarse a variables o pasarse como argumentos a otras funciones. También puede llamar a una instancia de una clase Dart como si fuera una función.
+Dart es un verdadero lenguaje orientado a objetos, por lo que incluso las [funciones](https://dart.dev/guides/language/language-tour#functions) son objetos y tienen un tipo, el tipo [Function](https://api.dart.dev/stable/dart-core/Function-class.html). Esto significa que las funciones pueden asignarse a variables o pasarse como argumentos a otras funciones. También puede llamar a una instancia de una clase como si fuera una función.
 
 ```dart
 bool isEven(int number) {
@@ -727,7 +744,7 @@ isEven(int number) {
 }
 ```
 
-Para las funciones que contienen una sola expresión, puede usar una sintaxis abreviada usando la notación `=>` también llamada _'arrow syntax'_.
+Para las funciones que contienen una sola expresión, puede usar una sintaxis abreviada usando la notación `=>` también llamada _'arrow syntax'_. La sintaxis `=> expr` es una forma abreviada de `{ return expr; }`
 
 ```dart
 bool isEven(int number) => number % 2 == 0;
@@ -735,13 +752,13 @@ bool isEven(int number) => number % 2 == 0;
 
 Una función puede tener dos tipos de parámetros: **requeridos y opcionales**. Los parámetros requeridos se enumeran primero, seguidos de cualquier parámetro opcional. Los parámetros opcionales nombrados también se pueden marcar como `@required`.
 
-### Optional parameters
+### Parámetros opcionales
 
 Los parámetros opcionales pueden ser posicionales o nombrados, pero no ambos a la vez.
 
-#### Optional named parameters
+#### Parámetros opcionales con nombre
 
-Al definir una función que tenga parámetros nombrados se usa la forma `{param1, param2,…}` para especificar los parámetros nombrados:
+Al definir una función que tenga parámetros con nombre se usa la forma `{param1, param2,…}` para especificar los parámetros nombrados:
 
 ```dart
 // Named parameters
@@ -765,7 +782,7 @@ Para indicar que un parámetro es obligatorio usamos la anotación `@required` e
 const Scrollbar({Key key, @required Widget child})
 ```
 
-#### Optional positional parameters
+#### Parámetros opcionales por posición
 
 Para indicar que uno o varios parámetros son posicionales se usan los corchetes `[]`:
 
@@ -787,9 +804,9 @@ hello('John', 'phone'); // => from: John - device: phone - status: null
 hello('John', 'phone', true); // => from: John - device: phone - status: true
 ```
 
-#### Default parameter values
+#### Parámetros con valor por defecto
 
-Para definir valores predeterminados en parámetros nombrados y posicionales se usa `=`. Los valores por defecto deben ser constantes en tiempo de compilación. Si no se proporciona un valor predeterminado, el valor predeterminado es `null`:
+Para definir valores por defecto en parámetros con nombre y posicionales se usa `=`. Los valores por defecto deben ser constantes en tiempo de compilación. Si no se proporciona un valor por defecto, el valor predeterminado es `null`:
 
 ```dart
 // Named parameters
@@ -811,9 +828,9 @@ say('John', 'hi'); // => from: John - msg: hi - device: carrier pigeon
 say('John', 'hi', 'phone'); // => from: John - msg: hi - device: phone
 ```
 
-### The `main()` function
+### La función `main()`
 
-Cada aplicación debe tener una función `main()` de nivel superior, que sirve como punto de entrada a la aplicación. La función `main()` devuelve `void` y tiene un parámetro opcional `List<String>` para los argumentos. se puede usar la biblioteca [args](https://pub.dartlang.org/packages/args) para definir y analizar argumentos de línea de comandos.
+Cada aplicación debe tener una función `main()` de nivel superior, que sirve como punto de entrada a la aplicación. La función `main()` devuelve `void` y tiene un parámetro opcional `List<String>` para los argumentos. Se puede usar la biblioteca ['args'](https://pub.dev/packages/args) para definir y analizar argumentos de línea de comandos.
 
 ```dart
 // This is where the app starts executing.
@@ -854,11 +871,11 @@ var loudify = (msg) => '!!! ${msg.toUpperCase()} !!!';
 assert(loudify('hello') == '!!! HELLO !!!');
 ```
 
-#### Anonymous functions
+#### Funciones anónimas
 
-Las funciones tienen nombre para ser invocadas pero también se pueden crear funciones sin nombre llamadas **funciones anónimas** o, a veces, lambda o _closure_. Se puede asignar una función anónima a una variable para, por ejemplo, agregarla o eliminarla de una colección.
+Las funciones tienen un nombre que permite invocar la función pero también se pueden crear funciones sin nombre llamadas **funciones anónimas** o, a veces, _lambda_ o _closure_. Se puede asignar una función anónima a una variable para, por ejemplo, agregarla o eliminarla de una colección.
 
-Una función anónima es similar a una función con nombre: cero o más parámetros, separados por comas y anotaciones de tipo opcionales, entre paréntesis:
+Una función anónima es similar a una función con nombre. Pueden tener cero o más parámetros separados por comas y anotaciones de tipo opcionales entre paréntesis:
 
 ```dart
 ([[Type] param1[, …]]) {
@@ -882,7 +899,7 @@ list.forEach(
     (item) => print('${list.indexOf(item)}: $item'));
 ```
 
-#### Lexical scope
+#### Ámbito léxico de las variables
 
 Dart es un lenguaje de ámbito léxico, lo que significa que el alcance de las variables se determina de forma estática, simplemente por el diseño del código. Puede "seguir las llaves hacia afuera" para ver si una variable está dentro del alcance. Las funciones más interiores puede hacer uso de las variables de nivel superior.
 
@@ -971,7 +988,7 @@ void main() {
 }
 ```
 
-#### Return values
+#### Valores de retorno
 
 Todas las funciones devuelven un valor. Si no se especifica ningún valor de retorno, la instrucción devuelve `null`, que se adjunta implícitamente al cuerpo de la función.
 
@@ -981,19 +998,15 @@ foo() {}
 assert(foo() == null);
 ```
 
-<!-- markdownlint-disable MD033 -->
-<div class="page"/>
-<!-- markdownlint-enable MD033 -->
+## Excepciones
 
-## Exceptions
+Las excepciones son errores que indican que sucedió algo inesperado. Si la excepción no se detecta, el _'isolate'_ que generó la excepción se suspende y, por lo general, el _'isolate'_ y su programa se terminan.
 
-Las excepciones son errores que indican que algo inesperado sucedió. Si la excepción no se detecta, el aislamiento que generó la excepción se suspende y, por lo general, el aislamiento y su programa se terminan.
+A diferencia de Java, todas las excepciones en Dart son _'unchecked exceptions'_. Los métodos no declaran las excepciones que pueden lanzar y no se requiere capturar ninguna excepción.
 
-A diferencia de Java, todas las excepciones de Dart son _'unchecked exceptions'_. Los métodos no declaran las excepciones que pueden lanzar y no se requiere capturar ninguna excepción.
+Dart provee los tipos [`Exception`](https://api.dart.dev/stable/dart-core/Exception-class.html) y [`Error`](https://api.dart.dev/stable/dart-core/Error-class.html) así como otros subtipos. Además, se pueden definir excepciones propias o personalizadas.
 
-Dart provee los tipos [`Exception`](https://api.dartlang.org/stable/dart-core/Exception-class.html) y [`Error`](https://api.dartlang.org/stable/dart-core/Error-class.html) así como otros subtipos. Además, se pueden definir excepciones propias o personalizadas.
-
-Sin embargo, en Dart se puede lanzar cualquier objeto que no sea nulo como una excepción, no solo los objetos `Exception` y `Error`. No obstante, es recomendable en código profesional utilizar estas clases, alguno de sus subtipos o nuestras propias excepciones.
+Sin embargo, en Dart se puede lanzar cualquier objeto que no sea nulo como una excepción, no solo los objetos `Exception` y `Error`. No obstante, es recomendable utilizar estas clases, alguno de sus subtipos o nuestras propias excepciones.
 
 ```dart
 throw FormatException('Expected at least 1 section'); // throws an exception
@@ -1001,13 +1014,13 @@ throw FormatException('Expected at least 1 section'); // throws an exception
 throw 'Out of llamas!'; // thow an arbitrary object
 ```
 
-Debido a que lanzar una excepción es una expresión, se puede lanzar excepciones en sentencias `=>`, así como en cualquier otro lugar que permita expresiones:
+Debido a que lanzar una excepción es una expresión, se puede lanzar excepciones en sentencias `=>`, así como en cualquier otro lugar que permita el uso de expresiones:
 
 ```dart
 void distanceTo(Point other) => throw UnimplementedError();
 ```
 
-Al capturar una excepción se impide que la excepción se propague (a menos que se vuelva a lanzar la excepción). Capturar una excepción da la oportunidad de manejarla:
+Al capturar una excepción se impide que la excepción se propague, a menos que se vuelva a lanzar la excepción. Capturar una excepción da la oportunidad de manejarla:
 
 ```dart
 try {
@@ -1017,7 +1030,7 @@ try {
 }
 ```
 
-Para manejar código que puede lanzar más de un tipo de excepción, se puede especificar múltiples cláusulas de captura. La primera cláusula de captura que coincide con el tipo de objeto lanzado maneja la excepción. Si la cláusula de captura no especifica un tipo, esa cláusula puede manejar cualquier tipo de objeto lanzado:
+Para manejar código que puede lanzar más de un tipo de excepción, se puede especificar múltiples cláusulas de captura. La primera cláusula de captura que coincida con el tipo de objeto lanzado maneja la excepción. Si la cláusula de captura no especifica un tipo, esa cláusula puede manejar cualquier tipo de objeto que sea lanzado:
 
 ```dart
 try {
@@ -1034,9 +1047,9 @@ try {
 }
 ```
 
-Como muestra el código anterior, se puede usar `on`, `catch` o ambos. Se utiliza `on` cuando se necesite especificar el tipo de excepción. Se utilice `catch` cuando el manejador de excepciones necesite el objeto de excepción.
+Como muestra el código anterior, se puede usar `on`, `catch` o ambos. Se utiliza `on` cuando se necesite especificar el tipo de excepción. Se utiliza `catch` cuando el manejador de excepciones necesite el objeto de excepción.
 
-Se puede especificar uno o dos parámetros para `catch()`. El primer parámetro es la excepción que fue lanzada, y el segundo parámetro es la traza de la pila, que es un objeto [`StackTrace`](https://api.dartlang.org/stable/dart-core/StackTrace-class.html).
+Se puede especificar uno o dos parámetros para `catch()`. El primer parámetro es la excepción que fue lanzada, y el segundo parámetro es la traza de la pila, que es un objeto [`StackTrace`](https://api.dart.dev/stable/dart-core/StackTrace-class.html).
 
 ```dart
 try {
@@ -1049,7 +1062,7 @@ try {
 }
 ```
 
-Para manejar parcialmente una excepción, mientras se relanza para que se propague, se usa la palabra clave `rethrow`:
+Para manejar parcialmente una excepción para luego ser relanzada para que se propague, se usa la palabra clave `rethrow`:
 
 ```dart
 void misbehave() {
@@ -1071,7 +1084,7 @@ void main() {
 }
 ```
 
-Para asegurarse de que se ejecute algún código, independientemente de si se lanza o no una excepción, se usa la cláusula `finally`. Si ninguna cláusula `catch` coincide con la excepción, la excepción se propaga después de que se ejecute la cláusula `finally`. Si una cláusula `catch` coincide y captura la excepción, se ejecuta esta cláusula y después se ejecuta la cláusula `finally`:
+Para asegurarse de que se ejecute código independientemente de si se lanza o no una excepción, se usa la cláusula `finally`. Si ninguna cláusula `catch` coincide con la excepción, la excepción se propaga después de que se ejecute la cláusula `finally`. Si una cláusula `catch` coincide y captura la excepción, se ejecuta esta cláusula y después se ejecuta la cláusula `finally`:
 
 ```dart
 try {
@@ -1090,15 +1103,11 @@ try {
 }
 ```
 
-<!-- markdownlint-disable MD033 -->
-<div class="page"/>
-<!-- markdownlint-enable MD033 -->
+## Clases
 
-## Classes
+Dart es un lenguaje orientado a objetos con clases y herencia de clases.
 
-Dart es un lenguaje orientado a objetos con clases y herencia basada en mezclas. Cada objeto es una instancia de una clase, y todas las clases descienden de [Objet](https://api.dartlang.org/stable/dart-core/Object-class.html). La herencia basada en mezclas significa que aunque cada clase (excepto `Object`) tiene exactamente una superclase, un cuerpo de clase puede ser reutilizado en múltiples jerarquías de clases.
-
-### Using class members
+### Miembros de clase
 
 Los objetos tienen miembros que consisten en funciones y datos (métodos y variables de instancia, respectivamente). Cuando se llama a un método, se invoca en un objeto: el método tiene acceso a las funciones y datos de ese objeto. Se usa la notación punto `(.)` para referirse a una variable de instancia o un miembro de un objeto.
 
@@ -1122,9 +1131,9 @@ Se puede utilizar `?.` en lugar de solo `.` para evitar una excepción cuando el
 p?.y = 4;
 ```
 
-### Using constructors
+### Crear una instancia
 
-Puede crear un objeto utilizando un constructor. Los nombres de los constructores pueden ser _'ClassName'_ o _'ClassName.identifier'_. La palabra clave `new` es opcional en Dart v2.0:
+Puede crear un objeto utilizando un constructor. Los nombres de los constructores pueden ser _'ClassName'_ o _'ClassName.identifier'_. La palabra clave `new` es opcional en Dart v2.0 y posteriores:
 
 ```dart
 import 'dart:math';
@@ -1149,9 +1158,9 @@ var b = const Point(1, 1);
 assert(identical(a, b)); // They are the same instance!
 ```
 
-### Getting an object’s type
+### Obtener el tipo de un objeto
 
-Para obtener el tipo de un objeto en tiempo de ejecución, puede usar la propiedad `runtimeType` de la clase `Object`, que devuelve un objeto [Type](https://api.dartlang.org/stable/dart-core/Type-class.html):
+Para obtener el tipo de un objeto en tiempo de ejecución, puede usar la propiedad `runtimeType` de la clase `Object`, que devuelve un objeto [Type](https://api.dart.dev/stable/dart-core/Type-class.html):
 
 ```dart
 var a = 45;
@@ -1161,7 +1170,7 @@ print('The type of a is ${a.runtimeType}'); // => The type of a is int
 print('The type of a is ${b.runtimeType}'); // => The type of a is Point<int>
 ```
 
-### Instance variables
+### Variables de instancia
 
 Las variables declaradas dentro de una clase son variables de instancia. Todas las variables de instancia sin inicializar tienen el valor nulo.
 
@@ -1213,17 +1222,17 @@ class Point {
 }
 ```
 
-#### Default constructor
+#### Constructor por defecto
 
-Si no se declara un constructor, se proporciona un constructor predeterminado. El constructor predeterminado no tiene argumentos e invoca al constructor sin argumentos en la superclase.
+Si no se declara un constructor, se proporciona un constructor por defecto. El constructor por defecto no tiene argumentos e invoca al constructor sin argumentos de la superclase.
 
-Las subclases no heredan constructores de su superclase. Una subclase que declara que no hay constructores tiene solo el constructor predeterminado (sin argumento y sin nombre).
+Las subclases no heredan constructores de su superclase. Una subclase que declara que no hay constructores tiene solo el constructor por defecto (sin argumento y sin nombre).
 
-#### Named constructors
+#### Constructores con nombre
 
-Los constructores con nombre se emplean para implementar múltiples constructores para una clase o para proporcionar claridad adicional.
+Los constructores con nombre se emplean para implementar múltiples constructores para una clase o para proporcionar mayor claridad.
 
-Como ya se ha comentado, los constructores no son heredados, lo que significa que el constructor con nombre de una superclase no es heredado por una subclase. En caso de que sea necesario que una subclase se cree con un constructor con nombre definido en la superclase, debe implementar ese constructor en la subclase.
+Como ya se ha comentado, los constructores no se heredan, lo que significa que el constructor con nombre de una superclase no es heredado por una subclase. En caso de que sea necesario que una subclase se cree con un constructor con nombre definido en la superclase, debe implementar ese constructor en la subclase.
 
 ```dart
 class Point {
@@ -1239,7 +1248,7 @@ class Point {
 }
 ```
 
-#### Initializer list
+#### Lista de inicialización
 
 Se puede inicializar las variables de instancia antes de que se ejecute el cuerpo del constructor. Los inicializadores se separan con comas:
 
@@ -1347,7 +1356,7 @@ class Employee extends Person {
 
 #### Redirecting constructors
 
-A veces, el único propósito de un constructor es redirigir a otro constructor en la misma clase. El cuerpo del constructor que redirige está vacío, con la llamada del constructor apareciendo después de dos puntos (`:`)
+A veces, el único propósito de un constructor es redirigir la llamada a otro constructor de la misma clase. El cuerpo del constructor que redirige estará vacío con la llamada al constructor apareciendo después de dos puntos (`:`)
 
 ```dart
 class Point {
@@ -1361,9 +1370,9 @@ class Point {
 }
 ```
 
-#### Constants constructors
+#### Constructores constantes
 
-Si una clase produce objetos que nunca cambian, se puede hacer que estos objetos sean constantes en tiempo de compilación. Para hacer esto, se define un constructor con la palabra clave `const` y todas las variables de instancia se definen como finales:
+Si una clase instancia objetos que nunca cambian, se puede hacer que estos objetos sean constantes en tiempo de compilación. Para hacer esto, se define un constructor con la palabra clave `const` y todas las variables de instancia se definen como finales:
 
 ```dart
 class ImmutablePoint {
@@ -1378,15 +1387,15 @@ class ImmutablePoint {
 
 #### Factory constructors
 
-Se usa la palabra clave `factory` cuando se implementa un constructor que no siempre crea una nueva instancia de su clase. Por ejemplo, un constructor de fábrica puede devolver una instancia de una caché, o puede devolver una instancia de un subtipo. Estos constructores se invocan como un constructor normal.
+Se usa la palabra clave `factory` cuando se implementa un constructor que no siempre crea una nueva instancia de su clase. Por ejemplo, un constructor puede devolver una instancia de una caché o puede devolver una instancia de un subtipo. Estos constructores se invocan como un constructor normal.
 
-### Methods
+### Métodos
 
 Los métodos son funciones que proveen de comportamiento a los objetos.
 
-#### Instance methods
+#### Métodos de instancia
 
-Los métodos de instancia en objetos pueden acceder a las variables de instancia y a `this`:
+Los métodos de instancia pueden acceder a las variables de instancia y a `this`:
 
 ```dart
 import 'dart:math';
@@ -1404,7 +1413,7 @@ class Point {
 }
 ```
 
-#### Getters and setters
+#### 'Getters' y 'setters'
 
 Los *'getters'* y *'setters'* son métodos especiales que proporcionan acceso de lectura y escritura a las propiedades de un objeto. Cada variable de instancia tiene un *'getter'* implícito, más un *'setter'* si corresponde. Puede crear propiedades adicionales implementando *'getters'* y *'setters'*, usando las palabras clave `get` y `set`:
 
@@ -1429,9 +1438,9 @@ void main() {
 }
 ```
 
-#### Abstract methods
+#### Métodos abstractos
 
-Los métodos de instancia, _'getters'_ y _'setters'_  pueden ser abstractos, definiendo una interfaz pero dejando su implementación en otras clases. Los métodos abstractos solo pueden declararse en **clases abstractas**.
+Los métodos de instancia, los _'getters'_ y los _'setters'_ pueden ser abstractos, definiendo una interfaz pero dejando su implementación en otras clases. Los métodos abstractos solo pueden declararse en **clases abstractas**.
 
 ```dart
 abstract class Doer {
@@ -1447,7 +1456,7 @@ class EffectiveDoer extends Doer {
 }
 ```
 
-### Abstract classes
+### Clases abstractas
 
 Para definir una clase abstracta se utiliza el modificador `abstract`. Una clase abstracta es una clase que no puede ser instanciada. Las clases abstractas son útiles para definir interfaces, a menudo con alguna implementación. Las clases abstractas normalmente tienen métodos abstractos.
 
@@ -1461,7 +1470,7 @@ abstract class AbstractContainer {
 }
 ```
 
-### Implicit interfaces
+### Interfaces implícitas
 
 A diferencia de Java o Kotlin, en Dart no existe el concepto de interfaz como entidad. Cada clase define implícitamente una interfaz que contiene todos los miembros de instancia de la clase y de las interfaces que implementa. Si desea crear una clase A que soporte la API de la clase B sin heredar la implementación de B, la clase A debería implementar la interfaz B.
 
@@ -1501,7 +1510,7 @@ Una clase puede implementar múltiples interfaces separadas por comas:
 class Point implements Comparable, Location {...}
 ```
 
-### Extending a class
+### Extender una clase
 
 Se utiliza la palabra clave `extends` para crear una subclase y la palabra clave `super` para referirse a la superclase:
 
@@ -1525,9 +1534,9 @@ class SmartTelevision extends Television {
 }
 ```
 
-#### Overriding members
+#### Sobrescribir miembros
 
-Las subclases puede sobreescribir métodos de instancia, _'getters'_ y _'setters'_. Se utiliza la anotación `@override` para indicar al compilador que un método está sobreescribiendo un método de la superclase.
+Las subclases puede sobrescribir métodos de instancia, _'getters'_ y _'setters'_. Se utiliza la anotación `@override` para indicar al compilador que un método está sobrescribiendo un método de la superclase.
 
 ```dart
 class SmartTelevision extends Television {
@@ -1537,7 +1546,7 @@ class SmartTelevision extends Television {
 }
 ```
 
-### Enumerated types
+### Tipos enumerados
 
 Los tipos enumerados, a menudo llamados enumeraciones o **enums**, son un tipo especial de clase que se utiliza para representar un número fijo de valores constantes.
 
@@ -1562,7 +1571,7 @@ List<Color> colors = Color.values;
 assert(colors[2] == Color.blue);
 ```
 
-Las enumeraciones se puede emplear en bloques `switch`. En caso de no haya una cláusula `case` para cada valor de la enumeración se lanza un aviso:
+Las enumeraciones se puede emplear en bloques `switch`. En caso de que no haya una cláusula `case` para cada valor de la enumeración se lanza un aviso:
 
 ```dart
 var aColor = Color.blue;
@@ -1584,13 +1593,13 @@ Las clases enumeradas tienen los siguientes límites:
 * No se puede heredar, mezclar o implementar un enumeración.
 * No se puede instanciar explícitamente una enumeración.
 
-### Adding features to a class: mixins
+### Mixins
 
-(todo)
+<https://dart.dev/guides/language/language-tour#adding-features-to-a-class-mixins>
 
 ### Class variables and methods
 
-Se use la palabra clave `static` para implementar variables y métodos en toda la clase.
+Se usa la palabra clave `static` para implementar variables y métodos en toda la clase.
 
 Las variables estáticas (variables de clase) son útiles para constantes y estados de toda la clase. Las variables estáticas no se inicializan hasta que no se utilizan.
 
@@ -1630,27 +1639,17 @@ void main() {
 }
 ```
 
-**Nota**: Es recomendable utilizar usar funciones de nivel superior en lugar de métodos estáticos para utilidades y funcionalidades comunes que son ampliamente utilizadas.
+**Nota**: Es recomendable utilizar funciones de nivel superior en lugar de métodos estáticos para utilidades y funcionalidades comunes que son ampliamente utilizadas.
 
-<!-- markdownlint-disable MD033 -->
-<div class="page"/>
-<!-- markdownlint-enable MD033 -->
+## Genéricos
 
-## Generics
+<https://dart.dev/guides/language/language-tour#generics>
 
-(todo)
+## Bibliotecas y visibilidad
 
-<!-- markdownlint-disable MD033 -->
-<div class="page"/>
-<!-- markdownlint-enable MD033 -->
+Las directivas `import` y `library` permiten crear código modular y reutilizable. Las bibliotecas no sólo proporcionan APIs, sino que son una unidad de privacidad: los identificadores que comienzan con un guión bajo (`_`) sólo son visibles dentro de la biblioteca. Cada aplicación en Dart es una biblioteca, incluso si no usa la directiva `library`. Las bibliotecas pueden distribuirse usando [`packages`](https://dart.dev/guides/packages).
 
-## Libraries and visibility
-
-Las directivas `import` y `library` permiten crear código modular y reutilizable. Las bibliotecas no sólo proporcionan APIs, sino que son una unidad de privacidad: los identificadores que comienzan con un guión bajo (`_`) sólo son visibles dentro de la biblioteca. Cada aplicación en Dart es una biblioteca, incluso si no usa la directiva `library`.
-
-<https://www.dartlang.org/guides/libraries/library-tour>
-
-### Using libraries
+### Utilizando bibliotecas
 
 Se utiliza la palabra clave `import` para especificar cómo se usa un espacio de nombres de una biblioteca en el alcance de otra biblioteca, es decir, como importar un biblioteca para ser utilizada en otra biblioteca:
 
@@ -1659,15 +1658,15 @@ import 'dart:html';
 import 'dart:math';
 ```
 
-El único argumento necesario para importar es una URI que especifique la biblioteca. Para las bibliotecas incorporadas de Dart, la URI tiene la forma `dart:`. Para otras bibliotecas o bibliotecas de terceros, puede utilizar una ruta de sistema de archivos o la forma `package:`. La forma `package:` especifica las librerías proporcionadas por un gestor de paquetes como la herramienta *pub*:
+El único argumento necesario para importar una biblioteca es una URI que especifique la biblioteca. Para las bibliotecas incorporadas en el núcleo de Dart, la URI tiene la forma `dart:`. Para otras bibliotecas o bibliotecas de terceros, puede utilizar una ruta de sistema de archivos o la forma `package:`. La forma `package:` especifica las bibliotecas proporcionadas por un gestor de paquetes como la herramienta *pub*:
 
 ```dart
 import 'package:test/test.dart';
 ```
 
-#### Specifying a library prefix
+#### Especificar un prefijo
 
-Si se importan dos bibliotecas que tienen identificadores en conflicto, entonces se puede especificar un prefijo para una o ambas bibliotecas para eliminar la ambigüedad:
+Si se importan dos bibliotecas que tienen identificadores en conflicto, se puede especificar un prefijo para una o ambas bibliotecas y así eliminar la ambigüedad:
 
 ```dart
 import 'package:lib1/lib1.dart';
@@ -1680,7 +1679,7 @@ Element element1 = Element();
 lib2.Element element2 = lib2.Element();
 ```
 
-#### Importing only part of a library
+#### Importar una porción de una biblioteca
 
 Si desea utilizar solo una parte de una biblioteca, puede importar selectivamente la biblioteca:
 
@@ -1692,7 +1691,7 @@ import 'package:lib1/lib1.dart' show foo;
 import 'package:lib2/lib2.dart' hide foo;
 ```
 
-#### Lazily loading a library o carga diferida
+#### Carga diferida de una biblioteca
 
 La carga diferida (también llamada _'lazy loading'_) permite que una aplicación cargue una biblioteca bajo demanda, cuando y donde sea necesario. He aquí algunos casos en los que puede utilizar la carga diferida:
 
@@ -1700,7 +1699,7 @@ La carga diferida (también llamada _'lazy loading'_) permite que una aplicació
 * Para realizar pruebas A/B, por ejemplo, probando implementaciones alternativas de un algoritmo.
 * Para cargar funcionalidades poco utilizadas, como pantallas y cuadros de diálogo opcionales.
 
-Para indicar que una biblioteca se cargará de forma diferida la palabra clave `deferred as`. Cuando la biblioteca sea necesaria, se invocará llamando al método `loadLibrary()` (En el ejemplo se emplea `await` para pausar la ejecución hasta que la biblioteca se cargue):
+Para indicar que una biblioteca se cargará de forma diferida se utiliza la palabra clave `deferred as`. Cuando la biblioteca sea necesaria, se invocará llamando al método `loadLibrary()`. En el ejemplo se emplea `await` para pausar la ejecución hasta que la biblioteca se cargue:
 
 ```dart
 import 'package:greetings/hello.dart' deferred as hello;
@@ -1713,25 +1712,21 @@ Future greet() async {
 
 Tenga en cuenta lo siguiente cuando utilice la carga diferida:
 
-* Puede invocar loadLibrary () varias veces en una biblioteca sin problemas. La biblioteca se carga una sola vez.
-* Las constantes de una biblioteca diferida no son constantes en el archivo de importación. Recuerde, estas constantes no existen hasta que se carga la librería diferida.
+* Puede invocar `loadLibrary()` varias veces en una biblioteca sin problemas. La biblioteca se cargará una sola vez.
+* Las constantes de una biblioteca diferida no son constantes en el archivo de importación. Estas constantes no existen hasta que se carga la librería diferida.
 * No puede utilizar tipos de una biblioteca diferida en el archivo de importación. En su lugar, considere mover los tipos de interfaz a una biblioteca importada tanto por la biblioteca diferida como por el archivo de importación.
-* Dart inserta implícitamente `loadLibrary()` en el espacio de nombres cuando se utiliza `deferred as`. La función `loadLibrary()` devuelve un [Future](https://www.dartlang.org/guides/libraries/library-tour#future).
-
-<!-- markdownlint-disable MD033 -->
-<div class="page"/>
-<!-- markdownlint-enable MD033 -->
+* Dart inserta implícitamente `loadLibrary()` en el espacio de nombres cuando se utiliza `deferred as`. La función `loadLibrary()` devuelve un [Future](https://dart.dev/guides/libraries/library-tour#future).
 
 ## Asynchrony support
 
-El conjunto de bibliotecas de Dart tienen muchas funciones que devuelven tipos como [Future](https://api.dartlang.org/stable/dart-async/Future-class.html) o [Stream](https://api.dartlang.org/stable/dart-async/Stream-class.html). Estas funciones son **asíncronas**: regresan después de configurar una operación que puede llevar mucho tiempo (como I/O), sin esperar a que esa operación se complete.
+El conjunto de bibliotecas de Dart tienen muchas funciones que devuelven tipos como [Future](https://api.dart.dev/stable/dart-async/Future-class.html) o [Stream](https://api.dart.dev/stable/dart-async/Stream-class.html). Estas funciones son **asíncronas**: regresan después de configurar una operación que puede llevar mucho tiempo (como I/O), sin esperar a que esa operación se complete.
 
 Dart proporciona las palabras clave `async` y `await` para dar soporte a la programación asíncrona, permitiendo escribir código asíncrono que se parece al código síncrono.
 
 Existen dos formas de manejar el tipo _'Future'_:
 
 * Uso de `async`y `await`
-* Uso de la API de _'Future'_ en la biblioteda de Dart `dart:async`
+* Uso de la API de _'Future'_ en la biblioteca `dart:async`
 
 Una función asíncrona es una función cuyo cuerpo está marcado con el modificador `async`. Una función declarada como asíncrona retorna un tipo _'Future'_.
 
@@ -1804,23 +1799,19 @@ Future<String> gatherNewsReports() =>
     Future.delayed(oneSecond, () => news);
 ```
 
-<https://www.dartlang.org/guides/language/language-tour#asynchrony-support>
-<https://www.dartlang.org/tutorials/language/futures>
-<https://www.dartlang.org/tutorials/language/streams>
+## Isolates
 
-## Testing
+La mayoría de los ordenadores, incluso en plataformas móviles, tienen CPUs multinúcleo. Para aprovechar todos estos núcleos, los desarrolladores utilizan tradicionalmente hilos de memoria compartida que se ejecutan simultáneamente. Sin embargo, la concurrencia de estados compartidos es propensa a errores y puede conducir a código complicado.
 
-(todo)
-
-<https://www.dartlang.org/guides/testing>
+En lugar de hilos, todo el código en Dart corre dentro de [***isolates***](https://dart.dev/guides/language/language-tour#isolates). Cada entorno aislado tiene su propia pila de memoria, lo que al no ser compartida se garantiza que no se pueda acceder ni modificar el estado.
 
 ---
 
-## Reference
+## Más información
 
-* <https://www.dartlang.org/>
+* <https://dart.dev/>
 
-## License
+## Licencia
 
 [![Licencia de Creative Commons](https://i.creativecommons.org/l/by-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-sa/4.0/)  
 Esta obra está bajo una [licencia de Creative Commons Reconocimiento-Compartir Igual 4.0 Internacional](http://creativecommons.org/licenses/by-sa/4.0/).
