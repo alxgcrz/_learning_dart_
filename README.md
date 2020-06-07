@@ -1,5 +1,9 @@
 # Apuntes de [Dart]
 
+**Proyecto archivado.** Nueva localización en [apuntes-general](https://github.com/alxgcrz/apuntes-general).
+
+----
+
 Dart es un lenguaje de programación de código abierto desarrollado por Google. Dart es ideal para aplicaciones móviles y aplicaciones web. También puede ser usado en aplicaciones de escritorio, en aplicaciones de línea de comandos (_'command-line apps'_), como lenguaje para escribir scripts o en aplicaciones _server-side_.
 
 Para aplicaciones web, **Dart Web** incluye un compilador en tiempo de desarrollo (_'dartdevc'_) y un compilador para producción (_'dart2js'_). La herramienta _'dart2js'_ compila el código Dart en código JavaScript compacto, rápido y desplegable. Emplea técnicas como la eliminación de código muerto para generar código Javascript limpio y eficiente.
@@ -525,7 +529,7 @@ b ??= value;
 | :-----------------------: | :-------------------------: |
 |          +=               |            a = a + b        |
 |          -=               |            a = a - b        |
-|          *=               |            a = a * b        |
+|          *=               |            a = a \* b        |
 |          /=               |            a = a / b        |
 |          ~/=              |            a = a ~/ b       |
 |          %=               |            a = a % b        |
@@ -1805,7 +1809,7 @@ La mayoría de los ordenadores, incluso en plataformas móviles, tienen CPUs mul
 
 En lugar de hilos, todo el código en Dart corre dentro de [***isolates***](https://dart.dev/guides/language/language-tour#isolates). Cada entorno aislado tiene su propia pila de memoria, lo que al no ser compartida se garantiza que no se pueda acceder ni modificar el estado.
 
----
+----
 
 ## Más información
 
