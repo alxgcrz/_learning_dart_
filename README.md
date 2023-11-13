@@ -1,8 +1,4 @@
-# Apuntes de [Dart]
-
-**Proyecto archivado.** Nueva localización en [apuntes-general](https://github.com/alxgcrz/apuntes-general).
-
-----
+# Dart
 
 Dart es un lenguaje de programación de código abierto desarrollado por Google. Dart es ideal para aplicaciones móviles y aplicaciones web. También puede ser usado en aplicaciones de escritorio, en aplicaciones de línea de comandos (_'command-line apps'_), como lenguaje para escribir scripts o en aplicaciones _server-side_.
 
@@ -156,7 +152,7 @@ Las variables sin inicializar tienen un valor inicial `null`. Incluso las variab
 
 #### `final` y `const`
 
-Para declarar [variables finales](https://dart.dev/guides/language/language-tour#final-and-const) cuyo valor no va a cambiar, se utilizan las palabras clave `final` o `const` en lugar de la palabra clave `var`. Una variable `final` solo se puede asignar una vez; una variable `const` es una constante en tiempo de compilación. Una constante en tiempo de compilación o ***compile-time constant*** es una constante cuyo valor es conocido en tiempo de compilación.
+Para declarar [variables finales](https://dart.dev/guides/language/language-tour#final-and-const) cuyo valor no va a cambiar, se utilizan las palabras clave `final` o `const` en lugar de la palabra clave `var`. Una variable `final` solo se puede asignar una vez; una variable `const` es una constante en tiempo de compilación. Una constante en tiempo de compilación o **_compile-time constant_** es una constante cuyo valor es conocido en tiempo de compilación.
 
 Las variables `const` son implícitamente finales. Una variable final de nivel superior o una variable final de clase se inicializa la primera vez que se usa.
 
@@ -169,7 +165,7 @@ name = 'Alice'; // Error: a final variable can only be set once.
 
 Las variables de instancia pueden ser `final` pero no `const`. Las variables finales de instancia deben inicializarse antes de que se inicie el cuerpo del constructor: en la declaración de la variable, mediante un parámetro del constructor o en la lista de inicializadores del constructor.
 
-Utilice `const` para las variables que desea que sean constantes en tiempo de compilación (***compile-time constants***). Si la variable `const` está en el nivel de clase, márquela como `static const`.
+Utilice `const` para las variables que desea que sean constantes en tiempo de compilación (**_compile-time constants_**). Si la variable `const` está en el nivel de clase, márquela como `static const`.
 
 Cuando se declare la variable como `const`, hay que establecer el valor en tiempo de compilación. Por tanto se necesita un número o cadena literal, otra variable `const` o el resultado de una operación aritmética en números constantes:
 
@@ -276,7 +272,7 @@ var s8 = """This is also a
 multi-line string.""";
 ```
 
-En Dart (al igual que en Kotlin) se puede emplear expresiones y variables directamente en una cadena con la forma `${expresión}`. Si la expresión es un identificador, se pueden omitir las llaves `{}`. Esto se denomina **interpolación de cadena** o ***'template expressión'*** en Kotlin.
+En Dart (al igual que en Kotlin) se puede emplear expresiones y variables directamente en una cadena con la forma `${expresión}`. Si la expresión es un identificador, se pueden omitir las llaves `{}`. Esto se denomina **interpolación de cadena** o **_'template expressión'**_ en Kotlin.
 
 Para obtener la cadena correspondiente a un objeto, Dart llama al método `toString()` del objeto.
 
@@ -529,7 +525,7 @@ b ??= value;
 | :-----------------------: | :-------------------------: |
 |          +=               |            a = a + b        |
 |          -=               |            a = a - b        |
-|          *=               |            a = a \* b        |
+|          *=               |            a = a \* b       |
 |          /=               |            a = a / b        |
 |          ~/=              |            a = a ~/ b       |
 |          %=               |            a = a % b        |
@@ -1419,7 +1415,7 @@ class Point {
 
 #### 'Getters' y 'setters'
 
-Los *'getters'* y *'setters'* son métodos especiales que proporcionan acceso de lectura y escritura a las propiedades de un objeto. Cada variable de instancia tiene un *'getter'* implícito, más un *'setter'* si corresponde. Puede crear propiedades adicionales implementando *'getters'* y *'setters'*, usando las palabras clave `get` y `set`:
+Los _'getters'_ y _'setters'_ son métodos especiales que proporcionan acceso de lectura y escritura a las propiedades de un objeto. Cada variable de instancia tiene un _'getter'_ implícito, más un _'setter'_ si corresponde. Puede crear propiedades adicionales implementando _'getters'_ y _'setters'_, usando las palabras clave `get` y `set`:
 
 ```dart
 class Rectangle {
@@ -1662,7 +1658,7 @@ import 'dart:html';
 import 'dart:math';
 ```
 
-El único argumento necesario para importar una biblioteca es una URI que especifique la biblioteca. Para las bibliotecas incorporadas en el núcleo de Dart, la URI tiene la forma `dart:`. Para otras bibliotecas o bibliotecas de terceros, puede utilizar una ruta de sistema de archivos o la forma `package:`. La forma `package:` especifica las bibliotecas proporcionadas por un gestor de paquetes como la herramienta *pub*:
+El único argumento necesario para importar una biblioteca es una URI que especifique la biblioteca. Para las bibliotecas incorporadas en el núcleo de Dart, la URI tiene la forma `dart:`. Para otras bibliotecas o bibliotecas de terceros, puede utilizar una ruta de sistema de archivos o la forma `package:`. La forma `package:` especifica las bibliotecas proporcionadas por un gestor de paquetes como la herramienta _'pub'_:
 
 ```dart
 import 'package:test/test.dart';
@@ -1807,9 +1803,9 @@ Future<String> gatherNewsReports() =>
 
 La mayoría de los ordenadores, incluso en plataformas móviles, tienen CPUs multinúcleo. Para aprovechar todos estos núcleos, los desarrolladores utilizan tradicionalmente hilos de memoria compartida que se ejecutan simultáneamente. Sin embargo, la concurrencia de estados compartidos es propensa a errores y puede conducir a código complicado.
 
-En lugar de hilos, todo el código en Dart corre dentro de [***isolates***](https://dart.dev/guides/language/language-tour#isolates). Cada entorno aislado tiene su propia pila de memoria, lo que al no ser compartida se garantiza que no se pueda acceder ni modificar el estado.
+En lugar de hilos, todo el código en Dart corre dentro de [**_isolates**_](https://dart.dev/guides/language/language-tour#isolates). Cada entorno aislado tiene su propia pila de memoria, lo que al no ser compartida se garantiza que no se pueda acceder ni modificar el estado.
 
-----
+---
 
 ## Más información
 
