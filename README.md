@@ -28,23 +28,23 @@ Dart puede ser compilado eficientemente AOT o JIT, interpretado o transpilado a 
 
 ## Conceptos importantes
 
-* Todo lo que puede colocar en una variable es un objeto, y cada objeto es una instancia de una clase. Incluso los números, las funciones y `null` son objetos. Todos los objetos heredan de la clase `Object`.
+- Todo lo que puede colocar en una variable es un objeto, y cada objeto es una instancia de una clase. Incluso los números, las funciones y `null` son objetos. Todos los objetos heredan de la clase `Object`.
 
-* Aunque Dart está fuertemente tipado, las anotaciones de tipo son opcionales porque Dart puede inferir tipos.
+- Aunque Dart está fuertemente tipado, las anotaciones de tipo son opcionales porque Dart puede inferir tipos.
 
-* Dart admite tipos genéricos, como `List<int>` (una lista de enteros) o `List<dynamic>` (una lista de objetos de cualquier tipo).
+- Dart admite tipos genéricos, como `List<int>` (una lista de enteros) o `List<dynamic>` (una lista de objetos de cualquier tipo).
 
-* Dart admite funciones de nivel superior o _'top-level functions'_ (como `main()`), así como funciones vinculadas a una clase u objeto (métodos estáticos y de instancia, respectivamente). También puede crear funciones dentro de funciones (funciones anidadas o locales).
+- Dart admite funciones de nivel superior o _'top-level functions'_ (como `main()`), así como funciones vinculadas a una clase u objeto (métodos estáticos y de instancia, respectivamente). También puede crear funciones dentro de funciones (funciones anidadas o locales).
 
-* De manera similar, Dart admite variables de nivel superior, así como variables vinculadas a una clase u objeto (variables estáticas y de instancia). Las variables de instancia a veces se conocen como campos o propiedades.
+- De manera similar, Dart admite variables de nivel superior, así como variables vinculadas a una clase u objeto (variables estáticas y de instancia). Las variables de instancia a veces se conocen como campos o propiedades.
 
-* A diferencia de Java, Dart no tiene las palabras clave `public`, `protected` y `private`. Si un identificador comienza con un guión bajo (_), es privado a su biblioteca.
+- A diferencia de Java, Dart no tiene las palabras clave `public`, `protected` y `private`. Si un identificador comienza con un guión bajo (_), es privado a su biblioteca.
 
-* Los identificadores pueden comenzar con una letra o un guión bajo (_), seguido de cualquier combinación de esos caracteres más dígitos.
+- Los identificadores pueden comenzar con una letra o un guión bajo (_), seguido de cualquier combinación de esos caracteres más dígitos.
 
-* Dart tiene expresiones (que tienen valores de tiempo de ejecución) y declaraciones (que no). Por ejemplo, la expresión condicional `condicional ? expr1 : expr2` tiene un valor u otro. Compare eso con una sentencia if-else, que no tiene valor. Una declaración a menudo contiene una o más expresiones, pero una expresión no puede contener directamente una declaración.
+- Dart tiene expresiones (que tienen valores de tiempo de ejecución) y declaraciones (que no). Por ejemplo, la expresión condicional `condicional ? expr1 : expr2` tiene un valor u otro. Compare eso con una sentencia if-else, que no tiene valor. Una declaración a menudo contiene una o más expresiones, pero una expresión no puede contener directamente una declaración.
 
-* Las herramientas de Dart pueden reportar dos tipos de problemas: **warnings** y **errors**. Las advertencias son solo indicaciones de que su código podría no funcionar, pero no impiden que su programa se ejecute. Los errores pueden ser de compilación o de ejecución. Un error en tiempo de compilación evita que el código se ejecute; un error en tiempo de ejecución hace que se genere una excepción mientras se ejecuta el código.
+- Las herramientas de Dart pueden reportar dos tipos de problemas: **warnings** y **errors**. Las advertencias son solo indicaciones de que su código podría no funcionar, pero no impiden que su programa se ejecute. Los errores pueden ser de compilación o de ejecución. Un error en tiempo de compilación evita que el código se ejecute; un error en tiempo de ejecución hace que se genere una excepción mientras se ejecuta el código.
 
 ### Compilar y ejecutar código Dart
 
@@ -75,8 +75,8 @@ void main() {
 
 Más información:
 
-* <https://dart.dev/tutorials/server/get-started>  
-* <https://dart.dev/tutorials/server/cmdline>
+- <https://dart.dev/tutorials/server/get-started>  
+- <https://dart.dev/tutorials/server/cmdline>
 
 ## Sintaxis básica
 
@@ -186,13 +186,13 @@ const baz = []; // Equivalent to `const []`
 
 Dart tiene soporte especial para los siguientes tipos:
 
-* numbers
-* strings
-* booleans
-* lists (también conocido como arrays)
-* maps
-* runes
-* symbols
+- numbers
+- strings
+- booleans
+- lists (también conocido como arrays)
+- maps
+- runes
+- symbols
 
 Se puede inicializar un objeto de cualquiera de estos tipos especiales utilizando un literal. Por ejemplo, `'esto es una cadena'` es un literal de cadena, y `true` es un literal booleano.
 
@@ -202,14 +202,14 @@ Debido a que cada variable en Dart se refiere a un objeto, esto es, una instanci
 
 Dart tiene dos tipos para representar [tipos numéricos](https://dart.dev/guides/language/language-tour#numbers). Ambos tipos son objetos.
 
-* [`int`](https://api.dart.dev/stable/dart-core/int-class.html) - Valores enteros no mayores a **64 bits**, dependiendo de la plataforma. En Dart VM puede representar valores entre -2^63 y 2^63 - 1. Dado que Dart se puede compilar a Javascript, en Javascript el intervalo de valores está entre -2^53 hasta 2^53 - 1.
+- [`int`](https://api.dart.dev/stable/dart-core/int-class.html) - Valores enteros no mayores a **64 bits**, dependiendo de la plataforma. En Dart VM puede representar valores entre -2^63 y 2^63 - 1. Dado que Dart se puede compilar a Javascript, en Javascript el intervalo de valores está entre -2^53 hasta 2^53 - 1.
 
 ```dart
 var x = 1;
 var hex = 0xDEADBEEF;
 ```
 
-* [`double`](https://api.dart.dev/stable/dart-core/double-class.html) - Números de punto flotante de **64 bits** (precisión doble), según lo especificado por el estándar IEEE 754.
+- [`double`](https://api.dart.dev/stable/dart-core/double-class.html) - Números de punto flotante de **64 bits** (precisión doble), según lo especificado por el estándar IEEE 754.
 
 ```dart
 var y = 1.1;
@@ -521,19 +521,29 @@ a = value;
 b ??= value;
 ```
 
-|    Compound assignment    |    Equivalent expression    |
-| :-----------------------: | :-------------------------: |
-|          +=               |            a = a + b        |
-|          -=               |            a = a - b        |
-|          *=               |            a = a \* b       |
-|          /=               |            a = a / b        |
-|          ~/=              |            a = a ~/ b       |
-|          %=               |            a = a % b        |
-|          <<=              |            a = a << b       |
-|          =>>              |            a = a >> b       |
-|          &=               |            a = a & b        |
-|          ^=               |            a = a ^ b        |
-|          ~=               |            a = a | b        |
+El símbolo y su expresión equivalente:
+
+- `+=`: a = a + b
+
+- `-=`: a = a - b
+
+- `*=`: a = a * b
+
+- `/=`: a = a / b
+
+- `~/=`: a = a ~/ b
+
+- `%=`: a = a % b
+
+- `<<=`: a = a << b
+
+- `=>>`: a = a >> b
+
+- `&=`: a = a & b
+
+- `^=`: a = a ^ b
+
+- `|=`: a = a | b
 
 ```dart
 var a = 2; // Assign using =
@@ -543,11 +553,11 @@ assert(a == 6);
 
 #### Operadores lógicos
 
-|     Operador     |                            Significado                                    |
-| :--------------: | :-----------------------------------------------------------------------: |
-|      `!exp`      | inverts the following expression (changes false to true, and vice versa)  |
-|       `||`       | logical OR                                                                |
-|       `&&`       | logical AND                                                               |
+- `!exp`: inverts the following expression (changes false to true, and vice versa)
+
+- `||`: logical OR
+
+- `&&`: logical AND
 
 ```dart
 if (!done && (col == 0 || col == 3)) {
@@ -559,9 +569,9 @@ if (!done && (col == 0 || col == 3)) {
 
 Dart tiene dos operadores que permiten evaluar de forma concisa expresiones que de otro modo podrían requerir sentencias tipo `if-else`:
 
-* `condición ? expr1 : expr2` - Si la condición es verdadera, evalúa expr1 (y devuelve su valor); de lo contrario, evalúa y devuelve el valor de expr2.
+- `condición ? expr1 : expr2` - Si la condición es verdadera, evalúa expr1 (y devuelve su valor); de lo contrario, evalúa y devuelve el valor de expr2.
 
-* `expr1 ?? expr2` - Si expr1 no es nulo, devuelve su valor; de lo contrario, evalúa y devuelve el valor de expr2.
+- `expr1 ?? expr2` - Si expr1 no es nulo, devuelve su valor; de lo contrario, evalúa y devuelve el valor de expr2.
 
 ```dart
 var visibility = isPublic ? 'public' : 'private';
@@ -1308,9 +1318,9 @@ Point.withAssert(this.x, this.y) : assert(x >= 0) {
 
 Por defecto, un constructor en una subclase llama al constructor sin nombre de la superclase, sin argumentos. El constructor de la superclase es llamado al principio del cuerpo del constructor. Si también se está utilizando una lista de inicializadores, se ejecuta antes de que se llame a la superclase. En resumen, el orden de ejecución es el siguiente:
 
-* lista de inicializadores
-* el constructor de superclases sin argumentos
-* constructor sin argumentos de la clase principal
+- lista de inicializadores
+- el constructor de superclases sin argumentos
+- constructor sin argumentos de la clase principal
 
 Si la superclase no tiene un constructor sin nombre y sin argumentos, se debe llamar manualmente a uno de los constructores en la superclase. Para llamar a un constructor de la superclase se usa `:` justo antes del cuerpo del constructor si lo hay.
 
@@ -1590,8 +1600,8 @@ switch (aColor) {
 
 Las clases enumeradas tienen los siguientes límites:
 
-* No se puede heredar, mezclar o implementar un enumeración.
-* No se puede instanciar explícitamente una enumeración.
+- No se puede heredar, mezclar o implementar un enumeración.
+- No se puede instanciar explícitamente una enumeración.
 
 ### Mixins
 
@@ -1695,9 +1705,9 @@ import 'package:lib2/lib2.dart' hide foo;
 
 La carga diferida (también llamada _'lazy loading'_) permite que una aplicación cargue una biblioteca bajo demanda, cuando y donde sea necesario. He aquí algunos casos en los que puede utilizar la carga diferida:
 
-* Para reducir el tiempo de inicio inicial de una aplicación.
-* Para realizar pruebas A/B, por ejemplo, probando implementaciones alternativas de un algoritmo.
-* Para cargar funcionalidades poco utilizadas, como pantallas y cuadros de diálogo opcionales.
+- Para reducir el tiempo de inicio inicial de una aplicación.
+- Para realizar pruebas A/B, por ejemplo, probando implementaciones alternativas de un algoritmo.
+- Para cargar funcionalidades poco utilizadas, como pantallas y cuadros de diálogo opcionales.
 
 Para indicar que una biblioteca se cargará de forma diferida se utiliza la palabra clave `deferred as`. Cuando la biblioteca sea necesaria, se invocará llamando al método `loadLibrary()`. En el ejemplo se emplea `await` para pausar la ejecución hasta que la biblioteca se cargue:
 
@@ -1712,10 +1722,10 @@ Future greet() async {
 
 Tenga en cuenta lo siguiente cuando utilice la carga diferida:
 
-* Puede invocar `loadLibrary()` varias veces en una biblioteca sin problemas. La biblioteca se cargará una sola vez.
-* Las constantes de una biblioteca diferida no son constantes en el archivo de importación. Estas constantes no existen hasta que se carga la librería diferida.
-* No puede utilizar tipos de una biblioteca diferida en el archivo de importación. En su lugar, considere mover los tipos de interfaz a una biblioteca importada tanto por la biblioteca diferida como por el archivo de importación.
-* Dart inserta implícitamente `loadLibrary()` en el espacio de nombres cuando se utiliza `deferred as`. La función `loadLibrary()` devuelve un [Future](https://dart.dev/guides/libraries/library-tour#future).
+- Puede invocar `loadLibrary()` varias veces en una biblioteca sin problemas. La biblioteca se cargará una sola vez.
+- Las constantes de una biblioteca diferida no son constantes en el archivo de importación. Estas constantes no existen hasta que se carga la librería diferida.
+- No puede utilizar tipos de una biblioteca diferida en el archivo de importación. En su lugar, considere mover los tipos de interfaz a una biblioteca importada tanto por la biblioteca diferida como por el archivo de importación.
+- Dart inserta implícitamente `loadLibrary()` en el espacio de nombres cuando se utiliza `deferred as`. La función `loadLibrary()` devuelve un [Future](https://dart.dev/guides/libraries/library-tour#future).
 
 ## Asynchrony support
 
@@ -1725,8 +1735,8 @@ Dart proporciona las palabras clave `async` y `await` para dar soporte a la prog
 
 Existen dos formas de manejar el tipo _'Future'_:
 
-* Uso de `async`y `await`
-* Uso de la API de _'Future'_ en la biblioteca `dart:async`
+- Uso de `async`y `await`
+- Uso de la API de _'Future'_ en la biblioteca `dart:async`
 
 Una función asíncrona es una función cuyo cuerpo está marcado con el modificador `async`. Una función declarada como asíncrona retorna un tipo _'Future'_.
 
@@ -1807,9 +1817,9 @@ En lugar de hilos, todo el código en Dart corre dentro de [**_isolates**_](http
 
 ---
 
-## Más información
+## Referencias
 
-* <https://dart.dev/>
+- <https://dart.dev/>
 
 ## Licencia
 
