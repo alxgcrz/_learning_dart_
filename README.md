@@ -1605,7 +1605,7 @@ Las clases enumeradas tienen los siguientes límites:
 
 ### Mixins
 
-<https://dart.dev/guides/language/language-tour#adding-features-to-a-class-mixins>
+[Más información](https://dart.dev/language/mixins)
 
 ### Class variables and methods
 
@@ -1653,7 +1653,7 @@ void main() {
 
 ## Genéricos
 
-<https://dart.dev/guides/language/language-tour#generics>
+[Más información](https://dart.dev/language/generics)
 
 ## Bibliotecas y visibilidad
 
@@ -1725,11 +1725,11 @@ Tenga en cuenta lo siguiente cuando utilice la carga diferida:
 - Puede invocar `loadLibrary()` varias veces en una biblioteca sin problemas. La biblioteca se cargará una sola vez.
 - Las constantes de una biblioteca diferida no son constantes en el archivo de importación. Estas constantes no existen hasta que se carga la librería diferida.
 - No puede utilizar tipos de una biblioteca diferida en el archivo de importación. En su lugar, considere mover los tipos de interfaz a una biblioteca importada tanto por la biblioteca diferida como por el archivo de importación.
-- Dart inserta implícitamente `loadLibrary()` en el espacio de nombres cuando se utiliza `deferred as`. La función `loadLibrary()` devuelve un [Future](https://dart.dev/guides/libraries/library-tour#future).
+- Dart inserta implícitamente `loadLibrary()` en el espacio de nombres cuando se utiliza `deferred as`. La función `loadLibrary()` devuelve un [Future](https://dart.dev/libraries/dart-async#future).
 
 ## Asynchrony support
 
-El conjunto de bibliotecas de Dart tienen muchas funciones que devuelven tipos como [Future](https://api.dart.dev/stable/dart-async/Future-class.html) o [Stream](https://api.dart.dev/stable/dart-async/Stream-class.html). Estas funciones son **asíncronas**: regresan después de configurar una operación que puede llevar mucho tiempo (como I/O), sin esperar a que esa operación se complete.
+El conjunto de bibliotecas de Dart tienen muchas funciones que devuelven tipos como [Future](https://api.dart.dev/stable/3.4.4/dart-async/Future-class.html) o [Stream](https://api.dart.dev/stable/3.4.4/dart-async/Stream-class.html). Estas funciones son **asíncronas**: regresan después de configurar una operación que puede llevar mucho tiempo (como I/O), sin esperar a que esa operación se complete.
 
 Dart proporciona las palabras clave `async` y `await` para dar soporte a la programación asíncrona, permitiendo escribir código asíncrono que se parece al código síncrono.
 
@@ -1813,13 +1813,15 @@ Future<String> gatherNewsReports() =>
 
 La mayoría de los ordenadores, incluso en plataformas móviles, tienen CPUs multinúcleo. Para aprovechar todos estos núcleos, los desarrolladores utilizan tradicionalmente hilos de memoria compartida que se ejecutan simultáneamente. Sin embargo, la concurrencia de estados compartidos es propensa a errores y puede conducir a código complicado.
 
-En lugar de hilos, todo el código en Dart corre dentro de [**_isolates**_](https://dart.dev/guides/language/language-tour#isolates). Cada entorno aislado tiene su propia pila de memoria, lo que al no ser compartida se garantiza que no se pueda acceder ni modificar el estado.
+En lugar de hilos, todo el código en Dart corre dentro de [**_isolates**_](https://dart.dev/language/isolates). Cada entorno aislado tiene su propia pila de memoria, lo que al no ser compartida se garantiza que no se pueda acceder ni modificar el estado.
 
 ---
 
 ## Referencias
 
 - <https://dart.dev/>
+- <https://cheatsheets.zip/dart>
+- <https://exercism.org/tracks/dart>
 
 ## Licencia
 
